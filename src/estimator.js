@@ -1,9 +1,7 @@
 
-const getWeeks = (days) => ({
-  days,
-  weeks: Math.floor(days / 7),
-  months: Math.floor(days / 30)
-});
+const getWeeks = (days) => (
+  days - Math.floor(days / 7) - Math.floor(days / 30)
+);
 const covid19ImpactEstimator = ({ reportedCases }) => ({
   data: {
     region: {
