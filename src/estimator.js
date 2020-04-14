@@ -1,3 +1,9 @@
+
+const getWeeks = (days) => ({
+  days,
+  weeks: Math.floor(days / 7),
+  months: Math.floor(days / 30)
+});
 const covid19ImpactEstimator = ({ reportedCases }) => ({
   data: {
     region: {
@@ -14,11 +20,11 @@ const covid19ImpactEstimator = ({ reportedCases }) => ({
   },
   impact: {
     currentlyInfected: reportedCases * 10,
-    infectionsByRequestedTime: reportedCases * 10 * 512
+    infectionsByRequestedTime: getWeeks(reportedCases * 10 * 512)
   },
   severeImpact: {
     currentlyInfected: reportedCases * 50,
-    infectionsByRequestedTime: reportedCases * 50 * 512
+    infectionsByRequestedTime: getWeeks(reportedCases * 50 * 512)
   }
 });
 
