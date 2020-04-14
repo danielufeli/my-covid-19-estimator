@@ -1,5 +1,8 @@
 
-const covid19ImpactEstimator = (data) => ({
+const getWeeks = (days) => (
+  days + Math.floor(days / 7) + Math.floor(days / 30)
+);
+const covid19ImpactEstimator = ({ reportedCases }) => ({
   data: {
     region: {
       name: 'Africa',
@@ -9,17 +12,17 @@ const covid19ImpactEstimator = (data) => ({
     },
     periodType: 'days',
     timeToElapse: 58,
-    reportedCases: 674,
+    reportedCases,
     population: 66622705,
     totalHospitalBeds: 1380614
   },
   impact: {
-    currentlyInfected: data.reportedCases * 10,
-    infectionsByRequestedTime: data.reportedCases * 10 * 512
+    currentlyInfected: getWeeks(reportedCases * 10),
+    infectionsByRequestedTime: getWeeks(reportedCases * 10 * 512)
   },
   severeImpact: {
-    currentlyInfected: data.reportedCases * 50,
-    infectionsByRequestedTime: data.reportedCases * 50 * 512
+    currentlyInfected: getWeeks(reportedCases * 50),
+    infectionsByRequestedTime: getWeeks(reportedCases * 50 * 512)
   }
 });
 
