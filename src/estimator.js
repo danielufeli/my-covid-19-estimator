@@ -24,10 +24,14 @@ const covid19ImpactEstimator = (data) => {
   impact.infectionsByRequestedTime = impact.currentlyInfected * numCasesCal;
   impact.severeCasesByRequestedTime = impact.infectionsByRequestedTime * p;
   impact.hospitalBedsByRequestedTime = Math.trunc(avail - impact.severeCasesByRequestedTime);
-  impact.casesForICUByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * infPer);
-  impact.casesForVentilatorsByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * venPer);
-  impact.dollarsInFlight = Math.trunc((
-    impact.infectionsByRequestedTime * data.avgDailyIncomePopulation) / timeRound);
+  impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * infPer;
+  impact.casesForVentilatorsByRequestedTime = impact.infectionsByRequestedTime * venPer;
+  const i = (
+    impact.infectionsByRequestedTime
+    * data.avgDailyIncomeInUSD
+    * data.avgDailyIncomePopulation
+  );
+  impact.dollarsInFlight = Math.trunc(i / timeRound);
 
   severeImpact.currentlyInfected = data.reportedCases * 50;
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * numCasesCal;
@@ -35,14 +39,14 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.hospitalBedsByRequestedTime = Math.trunc(
     avail - severeImpact.severeCasesByRequestedTime
   );
-  severeImpact.casesForICUByRequestedTime = Math.trunc(
-    severeImpact.infectionsByRequestedTime * infPer
+  severeImpact.casesForICUByRequestedTime = severeImpact.infectionsByRequestedTime * infPer;
+  severeImpact.casesForVentilatorsByRequestedTime = severeImpact.infectionsByRequestedTime * venPer;
+  const s = (
+    severeImpact.infectionsByRequestedTime
+    * data.avgDailyIncomeInUSD
+    * data.avgDailyIncomePopulation
   );
-  severeImpact.casesForVentilatorsByRequestedTime = Math.trunc(
-    severeImpact.infectionsByRequestedTime * venPer
-  );
-  severeImpact.dollarsInFlight = Math.trunc((
-    severeImpact.infectionsByRequestedTime * data.avgDailyIncomePopulation) / timeRound);
+  severeImpact.dollarsInFlight = Math.trunc(s / timeRound);
   return {
     data,
     impact,
