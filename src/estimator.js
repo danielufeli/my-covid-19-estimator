@@ -4,13 +4,13 @@ const covid19ImpactEstimator = (data) => {
   const time = (period) => {
     let m = 0;
     if (period === 'days') {
-      m = data.timeToElapse % 3;
+      m = 2 ** Number(data.timeToElapse / 3);
     }
-    if (period === 'week') {
-      m = data.timeToElapse * 7;
+    if (period === 'weeks') {
+      m = 2 ** Number((data.timeToElapse * 7) / 3);
     }
-    if (period === 'month') {
-      m = data.timeToElapse * 30;
+    if (period === 'months') {
+      m = 2 ** Number((data.timeToElapse * 30) / 3);
     }
     return m;
   };
