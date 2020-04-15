@@ -16,17 +16,20 @@ const covid19ImpactEstimator = (data) => {
   };
   const timeRound = Math.trunc(timeElapsed(data.periodType));
   const numCasesCal = 2 ** timeRound;
-  const p = Math.trunc(15 / 100);
-  const avail = Math.trunc(data.totalHospitalBeds * (35 / 100));
+  const p = 15 / 100;
+  const infPer = 5 / 100;
+  const avail = data.totalHospitalBeds * (35 / 100);
   impact.currentlyInfected = data.reportedCases * 10;
   impact.infectionsByRequestedTime = impact.currentlyInfected * numCasesCal;
   impact.severeCasesByRequestedTime = impact.infectionsByRequestedTime * p;
-  impact.hospitalBedsByRequestedTime = avail - impact.severeCasesByRequestedTime;
+  impact.hospitalBedsByRequestedTime = Math.trunc(avail - impact.severeCasesByRequestedTime);
+  impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * infPer;
 
   severeImpact.currentlyInfected = data.reportedCases * 50;
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * numCasesCal;
   severeImpact.severeCasesByRequestedTime = severeImpact.infectionsByRequestedTime * p;
-  severeImpact.hospitalBedsByRequestedTime = avail - severeImpact.severeCasesByRequestedTime;
+  severeImpact.hospitalBedsByRequestedTime = Math.trunc(avail - severeImpact.severeCasesByRequestedTime);
+  severeImpact.casesForICUByRequestedTime = severeImpact.infectionsByRequestedTime * infPer;
   return {
     data,
     impact,
